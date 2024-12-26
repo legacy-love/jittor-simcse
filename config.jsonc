@@ -1,0 +1,7 @@
+{
+    // ModelArguments
+    // DataArguments
+    "dataset_path": "../data/nli_for_simcse.csv",
+    // TrainingArguments
+    "mode": "supervised"
+}
