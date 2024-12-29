@@ -1,0 +1,1 @@
+python3 train.py --config ../sup_config.jsonc

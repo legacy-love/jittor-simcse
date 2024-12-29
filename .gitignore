@@ -5,3 +5,7 @@ tokenizer/**
 src/__pycache__/**
 demo.txt
 keys.txt
+model/**
+output/**
+src/result*
+src/demo.py

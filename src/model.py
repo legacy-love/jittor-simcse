@@ -1,5 +1,6 @@
 import jittor as jt
 from jittor import nn
+import math
 
 class BertConfig:
     def __init__(
@@ -58,7 +59,7 @@ class BertEmbeddings(nn.Module):
         
     def execute(self, input_ids, token_type_ids=None):
         seq_length = input_ids.shape[1]
-        position_ids = self.positio_ids[:, :seq_length]
+        position_ids = self.position_ids[:, :seq_length]
 
         if token_type_ids is None:
             token_type_ids = jt.zeros_like(input_ids)
