@@ -14,43 +14,12 @@ class CLDataset(Dataset):
             for entry in self.dataset:
                 self.sent0.append(entry["text"])
                 self.sent1.append(entry["text"])
-                # t = self.tokenizer(
-                #     entry["text"],
-                #     max_length = self.max_seq_len,
-                #     truncation=True,
-                #     padding="max_length",
-                #     return_tensors="np"
-                # )
-                # self.sent0.append(t)
         elif self.mode == "supervised":
             for entry in self.dataset:
                 self.sent0.append(entry["sent0"])
                 self.sent1.append(entry["sent1"])
                 self.sent2.append(entry["hard_neg"])
-                # t0 = self.tokenizer(
-                #     entry["sent0"],
-                #     max_length = self.max_seq_len,
-                #     truncation=True,
-                #     padding="max_length",
-                #     return_tensors="np"
-                # )
-                # t1 = self.tokenizer(
-                #     entry["sent1"],
-                #     max_length = self.max_seq_len,
-                #     truncation=True,
-                #     padding="max_length",
-                #     return_tensors="np"
-                # )
-                # t2 = self.tokenizer(
-                #     entry["hard_neg"],
-                #     max_length = self.max_seq_len,
-                #     truncation=True,
-                #     padding="max_length",
-                #     return_tensors="np"
-                # )
-                # self.sent0.append(t0)
-                # self.sent1.append(t1)
-                # self.sent2.append(t2)
+
         else:
             raise ValueError(f"mode must be unsupervised or supervised")
             
@@ -77,11 +46,6 @@ class CLDataset(Dataset):
                 padding="max_length",
                 return_tensors="np"
             )
-            # print(self.sent0[index])
-            # print(t0)
-            # print(self.sent1[index])
-            # print(t1)
-            # raise UnboundLocalError
             t2 = t0
             return t0, t1, t2
         elif self.mode == "supervised":
@@ -93,7 +57,6 @@ class CLDataset(Dataset):
                 return_tensors="np"
             )
             t1 = self.tokenizer(
-                # self.sent1[index],
                 self.sent1[index],
                 max_length = self.max_seq_len,
                 truncation=True,

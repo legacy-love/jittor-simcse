@@ -53,7 +53,7 @@ class BertEmbeddings(nn.Module):
         self.token_type_embeddings = nn.Embedding(config.type_vocab_size, config.hidden_size)
 
         self.LayerNorm = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
-        self.dropout = nn.Dropout(config.hidden_dropout_prob)
+        self.dropout = nn.Dropout(config.hidden_dropout_prob, is_train=True)
 
         self.register_buffer("position_ids", jt.arange(config.max_position_embeddings).unsqueeze(0))
         
@@ -88,7 +88,7 @@ class BertSelfAttention(nn.Module):
         self.key   = nn.Linear(config.hidden_size, self.all_head_size)
         self.value = nn.Linear(config.hidden_size, self.all_head_size)
 
-        self.attn_dropout = nn.Dropout(config.attention_probs_dropout_prob)
+        self.attn_dropout = nn.Dropout(config.attention_probs_dropout_prob, is_train=True)
         self.softmax = nn.Softmax(dim=-1)
 
     # 分头
@@ -125,7 +125,7 @@ class BertSelfOutput(nn.Module):
         super().__init__()
         self.dense = nn.Linear(config.hidden_size, config.hidden_size)
         self.LayerNorm = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
-        self.dropout = nn.Dropout(config.hidden_dropout_prob)
+        self.dropout = nn.Dropout(config.hidden_dropout_prob, is_train=True)
 
     def execute(self, hidden_states, input_tensor):
         hidden_states = self.dense(hidden_states)
@@ -160,7 +160,7 @@ class BertOutput(nn.Module):
         super().__init__()
         self.dense = nn.Linear(config.intermediate_size, config.hidden_size)
         self.LayerNorm = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
-        self.dropout = nn.Dropout(config.hidden_dropout_prob)
+        self.dropout = nn.Dropout(config.hidden_dropout_prob, is_train=True)
 
     def execute(self, hidden_states, input_tensor):
         hidden_states = self.dense(hidden_states)
@@ -226,7 +226,7 @@ class BertForCL(nn.Module):
     
     def execute(self, input_ids, token_type_ids=None, attention_mask=None):
         encoder_output, pooled_output = self.bert(input_ids)
-        return encoder_output, pooled_output
+        return encoder_output[:, 0], pooled_output
 
 
 config = BertConfig()
