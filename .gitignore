@@ -7,3 +7,4 @@ output/*
 image/*
 src/result*
 src/demo.py
+results/*
