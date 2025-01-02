@@ -1,11 +1,9 @@
 demo/**
-data/**
-ckpt/**
-tokenizer/**
+data/nli_for_simcse.csv
+data/wiki1m_for_simcse.txt
 src/__pycache__/**
-demo.txt
-keys.txt
 model/**
-output/**
+output/*
+image/*
 src/result*
 src/demo.py

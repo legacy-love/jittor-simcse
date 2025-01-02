@@ -2,14 +2,16 @@
     // ModelArguments
     "tokenizer_dir": "../model/bert-base-uncased",
     "params_path": "../model/bert-base-uncased/pytorch_model.bin",
-    "output_path": "../output/unsup.bin",
+    "output_path": "../output/unsup_p01_t005.bin",
     // DataArguments
-    "max_seq_len": 32,
     "dataset_path": "../data/wiki1m_for_simcse.txt",
+    "max_seq_len": 32,
     // TrainingArguments
-    "mode": "unsupervised",
     "temperature": 0.05,
-    "learning_rate": 3e-5,
+    "mode": "unsupervised",
     "batch_size": 64,
-    "epoch": 1
+    "epoch": 1,
+    "learning_rate": 3e-5,
+    "negative_penalty": 1.0,
+    "plot_save_path": "../image/unsup_p01_t005.png" 
 }
