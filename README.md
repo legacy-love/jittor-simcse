@@ -54,3 +54,5 @@ def DataLoader(dataset: Dataset, *args, **kargs):
     return dataset.set_attrs(*args, **kargs)
 ```
 这就导致直接使用`tqdm`打印进度条时，进度条长度和实际迭代次数不一致的问题，目前的解决方法是向`tqdm`传入`total`的参数设置正确的进度条长度
+
+- 模型权重下载链接：https://cloud.tsinghua.edu.cn/d/eb6beb9a05714a7da3f9/
