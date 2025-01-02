@@ -103,6 +103,10 @@ class TrainingArguments:
         default=1.0,
         metadata={"help": "The penalty of negative example"}
     )
+    dynamic_loss: bool = field(
+        default=False,
+        metadata={"help": "Whether to use dynamic loss"}
+    )
     def __post_init__(self):
         allowed_mode = ["supervised", "unsupervised"]
         if self.mode not in allowed_mode:

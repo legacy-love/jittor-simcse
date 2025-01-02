@@ -45,13 +45,15 @@ def infoNCE(sim, batch_size, temperature, alpha_neg=1.0):
     L = jt.stack(losses).mean()
     return L
 
-def dynamic_infoNCE(sim, batch_size, temperature):
+def dynamic_infoNCE(sim, batch_size, temperature, alpha_neg=1.0):
     ones_matrix = jt.ones_like(sim[0: batch_size, 0: batch_size])
     # 惩罚矩阵不参与梯度计算
-    penalty_matrix = jt.exp(ones_matrix - sim[0: batch_size, 0: batch_size]).detach()
+    penalty_matrix = ones_matrix - sim[0: batch_size, 0: batch_size]
+    penalty_matrix = penalty_matrix.detach() * alpha_neg
 
     logits = sim / temperature
-    logits = logits[0: batch_size, batch_size:] * penalty_matrix
+    logits = logits[0: batch_size, batch_size:]
+    logits = logits + penalty_matrix
 
     losses = []
 
@@ -79,8 +81,10 @@ def calc_loss(training_args, z1, z2, z3=None):
 
         batch_size = z1.shape[0]
 
-        # loss = infoNCE(sim, batch_size, training_args.temperature, training_args.negative_penalty)
-        loss = dynamic_infoNCE(sim, batch_size, training_args.temperature)
+        if not training_args.dynamic_loss:
+            loss = infoNCE(sim, batch_size, training_args.temperature, training_args.negative_penalty)
+        else:
+            loss = dynamic_infoNCE(sim, batch_size, training_args.temperature, training_args.negative_penalty)
 
         return loss
     elif training_args.mode == "supervised":
